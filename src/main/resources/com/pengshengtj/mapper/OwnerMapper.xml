@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pengshengtj.dao.OwnerMapper">
+  <select id="selectByOweName" resultType="Owner">
+    select * from ownertable where
+    <if test="ownname!=null">
+      ownname like concat('%',#{ownname},'%')
+    </if>
+
+  </select>
+
+  <select id="selectByVid" resultType="Owner">
+    select * from ownertable where vid=#{vid}
+  </select>
+
+  <select id="selectByOweNameAndTime" resultType="Owner">
+    select * from ownertable where
+    <if test="ownname!=null">
+      ownname like concat('%',#{ownname},'%')
+    </if>
+
+    <if test="ownphone!=null">
+      and ownphone=#{ownphone}
+    </if>
+   and vid in
+    <foreach collection="vid" item="vid" open="(" separator="," close=")">
+      #{vid}
+    </foreach>
+  </select>
+
+  <insert id="insertOwner">
+    insert into ownertable (vid, ownname, ownphone, cerid, cernum, ownarea, ownvillage, ownfloor, ownunit, ownhouse) values (#{vid},#{ownname},#{ownphone},#{cerid},#{cernum},#{ownarea},#{ownvillage},#{ownfloor},#{ownunit},#{ownhouse})
+  </insert>
+
+  <select id="selectOwnidByVid" resultType="Owner">
+    select * from ownertable where vid=#{vid}
+  </select>
+
+  <update id="updateOwner">
+    update ownertable set ownname=#{ownname}, ownphone=#{ownphone}, cerid=#{cerid}, cernum=#{cernum}, ownarea=#{ownarea}, ownvillage=#{ownvillage}, ownfloor=#{ownfloor}, ownunit=#{ownunit}, ownhouse=#{ownhouse} where vid=#{vid}
+  </update>
+
+  <delete id="deleteOwner">
+    delete from ownertable where vid=#{vid}
+  </delete>
+
+  <select id="selectOwnerByVid" resultType="Owner">
+    select * from ownertable where vid in
+    <foreach collection="vid" item="vid" open="(" separator="," close=")">
+      #{vid}
+    </foreach>
+  </select>
+</mapper>
